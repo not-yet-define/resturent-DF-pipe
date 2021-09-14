@@ -5,7 +5,7 @@ where table_schema = 'exposed'
   and table_name = 'order_line_96586';
 
 -- create tables in azure sql database
-create table order_line
+create table order_line_history
 (
     id                  bigint,
     bill_id             bigint,

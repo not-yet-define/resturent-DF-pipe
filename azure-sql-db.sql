@@ -37,19 +37,6 @@ create table order_line_history
 
 );
 
--- yesterday records
-select *
-from exposed.order_line_96586
-where order_line_96586.timestamp < date(timezone('utc', now())) - 1
-limit 100;
-
--- last 24 hours records
-select *
-from exposed.order_line_96586
-where order_line_96586.timestamp > current_timestamp - interval '1 day'
-order by order_line_96586.timestamp desc
-limit 500;
-
 -- create tables in azure sql database
 create table order_line_last24h
 (
@@ -81,3 +68,21 @@ create table order_line_last24h
     order_reference     text,
     order_unique_id     bigint
 );
+
+-- yesterday records
+select *
+from exposed.order_line_96586
+where order_line_96586.timestamp < date(timezone('utc', now())) - 1
+limit 100;
+
+-- last 24 hours records
+select *
+from exposed.order_line_96586
+where order_line_96586.timestamp > current_timestamp - interval '1 day'
+order by order_line_96586.timestamp desc
+limit 500;
+
+-- history data by year
+select distinct extract(year from order_line_96586.timestamp)
+from exposed.order_line_96586;
+

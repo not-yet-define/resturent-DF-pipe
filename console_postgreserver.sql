@@ -37,14 +37,23 @@ create table order_line
 
 select *
 from exposed.order_line_96586
-where order_line_96586.timestamp < date(timezone('utc',now())) - 1
+where order_line_96586.timestamp < date(timezone('utc', now())) - 1
 limit 100;
 
 select *
 from exposed.order_line_96586
 where order_line_96586.timestamp > current_timestamp - interval '1 day'
-order by order_line_96586.timestamp desc limit 500;
+order by order_line_96586.timestamp desc
+limit 500;
 
-select current_timestamp,;
+select cast(concat(current_timestamp::date, ' 00:00:00.000000') as timestamp without time zone) - interval '1 day',
+       cast(concat(current_timestamp::date, ' 00:00:00.000000') as timestamp without time zone) - interval '10 day';
 
 -- 2021-09-09 09:07:58.451688
+
+select *
+from exposed.order_line_96586
+where order_line_96586.timestamp >
+      cast(concat(current_timestamp::date, ' 00:00:00.000000') as timestamp without time zone) - interval '10 day'
+  and order_line_96586.timestamp <=
+      cast(concat(current_timestamp::date, ' 00:00:00.000000') as timestamp without time zone) - interval '1 day';

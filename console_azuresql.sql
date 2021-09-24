@@ -25,7 +25,7 @@ execute remove_hist_records @days = -2;
 -- check
 begin
     declare @from datetime2;
-    set @from = dateadd(day, -2, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
+    set @from = dateadd(day, -10, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
 
     declare @to datetime2;
     set @to = dateadd(day, -1, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));

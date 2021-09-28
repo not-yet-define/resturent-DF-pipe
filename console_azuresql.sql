@@ -36,7 +36,7 @@ execute remove_hist_records @days = -30;
 -- 48,696 rows retrieved starting from 1 in 3 m 28 s 43 ms (execution: 38 s 797 ms, fetching: 2 m 49 s 246 ms)
 begin
     declare @from datetime2;
-    set @from = dateadd(day, -150, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
+    set @from = dateadd(day, -30, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
 
     declare @to datetime2;
     set @to = dateadd(day, -1, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
@@ -65,11 +65,29 @@ begin
 
     delete_more:
     DELETE TOP (10000)
-    FROM order_line_96586
-    WHERE @activity('Look for table details').output.firstRow.table_schema.@activity('Look for table details').output.firstRow.table_name.timestamp > @from
-      and @activity('Look for table details').output.firstRow.table_schema.@activity('Look for table details').output.firstRow.table_name.timestamp <= @to
+    FROM @{activity('Look for table details').output.firstRow.table_schema}.@{activity('Look for table details').output.firstRow.table_name}
+    WHERE @{activity('Look for table details').output.firstRow.table_schema}.@{activity('Look for table details').output.firstRow.table_name}.timestamp
+        > @from
+      and @{activity('Look for table details').output.firstRow.table_schema}.@{activity('Look for table details').output.firstRow.table_name}.timestamp <= @to
     IF @@ROWCOUNT > 0 GOTO delete_more;
 
 end
 go;
+
+begin
+    declare @from datetime2;
+    set @from = dateadd(day, -180, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
+
+    declare @to datetime2;
+    set @to = dateadd(day, -1, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
+
+    delete_more:
+    DELETE TOP (10000)
+    FROM dbo.@{activity('Look for table details').output.firstRow.table_name}
+    WHERE dbo.@{activity('Look for table details').output.firstRow.table_name}.timestamp
+        > @from
+      and dbo.@{activity('Look for table details').output.firstRow.table_name}.timestamp <= @to
+    IF @@ROWCOUNT > 0 GOTO delete_more;
+
+end
 

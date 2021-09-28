@@ -8,7 +8,7 @@
       <jdbc-url>jdbc:postgresql://engine-analytics-exposed.cf80m8xvbi0k.eu-west-1.rds.amazonaws.com:5432/bi</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="resturent-bi@rest-bi.database.windows.net" uuid="e14882cc-7547-4fa0-91b1-9dce70a735e3">
+    <data-source source="LOCAL" name="Azure SQL Database - resturent-bi@rest-bi.database.windows.net" uuid="e14882cc-7547-4fa0-91b1-9dce70a735e3">
       <driver-ref>azure.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>

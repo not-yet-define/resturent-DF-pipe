@@ -70,3 +70,31 @@ where @activity('Look for table details').output.firstRow.table_name.timestamp
   and @activity('Look for table details').output.firstRow.table_name.timestamp <=
     cast (concat(current_timestamp :: date
     , ' 00:00:00.000000') as timestamp without time zone) - interval '1 day';
+
+select *
+from @activity('Look for table details').output.firstRow.table_schema.@activity('Look for table details').output.firstRow.table_name
+where @activity('Look for table details').output.firstRow.table_name.timestamp
+    >
+    cast (concat(current_timestamp :: date
+    , ' 00:00:00.000000') as timestamp without time zone) - interval '150 day'
+  and @activity('Look for table details').output.firstRow.table_name.timestamp <=
+    cast (concat(current_timestamp :: date
+    , ' 00:00:00.000000') as timestamp without time zone) - interval '1 day';
+
+
+select *
+from @{activity('Look for table details').output.firstRow.table_schema}.@{activity('Look for table details').output.firstRow.table_name}
+where @{activity('Look for table details').output.firstRow.table_name}.timestamp
+    >
+    cast (concat(current_timestamp :: date
+    , ' 00:00:00.000000') as timestamp without time zone) - interval '150 day'
+  and @{activity('Look for table details').output.firstRow.table_name}.timestamp <=
+    cast (concat(current_timestamp :: date
+    , ' 00:00:00.000000') as timestamp without time zone) - interval '1 day';
+
+select count(*)
+from exposed.order_line_96586
+where exposed.order_line_96586.timestamp > cast(concat(current_timestamp :: date
+    , ' 00:00:00.000000') as timestamp without time zone) - interval '30 day'
+  and exposed.order_line_96586.timestamp <= cast(concat(current_timestamp :: date
+    , ' 00:00:00.000000') as timestamp without time zone) - interval '1 day';

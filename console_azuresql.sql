@@ -91,3 +91,21 @@ begin
 
 end
 
+-- check
+
+begin
+    declare @from datetime2;
+    set @from = dateadd(day, -60, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
+
+    declare @to datetime2;
+    set @to = dateadd(day, -1, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
+
+    select count(*)
+    from order_line_96586
+    where dbo.order_line_96586.timestamp > @from
+      and dbo.order_line_96586.timestamp <= @to;
+end
+go;
+
+
+-- update 30 days records 10 mins

@@ -101,11 +101,25 @@ begin
     set @to = dateadd(day, -1, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
 
     select count(*)
-    from order_line_96586
-    where dbo.order_line_96586.timestamp > @from
-      and dbo.order_line_96586.timestamp <= @to;
+    from app_consumer_96586
+    where dbo.app_consumer_96586.stored_timestamp > @from
+      and dbo.app_consumer_96586.stored_timestamp <= @to;
 end
 go;
 
+begin
+    declare @from datetime2;
+    set @from = dateadd(day, -60, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
 
--- update 30 days records 10 mins
+    declare @to datetime2;
+    set @to = dateadd(day, -1, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
+
+    delete_more:
+    DELETE TOP (10000)
+    FROM dbo.@{activity('Look for table details').output.firstRow.table_name}
+    WHERE dbo.@{activity('Look for table details').output.firstRow.table_name}.stored_timestamp
+        > @from
+      and dbo.@{activity('Look for table details').output.firstRow.table_name}.stored_timestamp <= @to
+    IF @@ROWCOUNT > 0 GOTO delete_more;
+
+end

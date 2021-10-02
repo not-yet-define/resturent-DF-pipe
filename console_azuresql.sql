@@ -95,7 +95,7 @@ end
 
 begin
     declare @from datetime2;
-    set @from = dateadd(day, -60, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
+    set @from = dateadd(day, -120, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
 
     declare @to datetime2;
     set @to = dateadd(day, -1, cast(concat(cast(getdate() as date), ' 00:00:00.000000') as datetime2));
